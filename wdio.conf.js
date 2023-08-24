@@ -1,8 +1,4 @@
-import fs from 'node:fs'
-
-const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
-const productName = packageJson.build.productName
-
+import kill from "kill-port"
 export const config = {
     //
     // ====================
@@ -10,6 +6,8 @@ export const config = {
     // ====================
     // WebdriverIO supports running e2e tests as well as unit and component tests.
     runner: 'local',
+    port: 9515,
+    path: "/wd/hub/",
     //
     // ==================
     // Specify Test Files
@@ -27,7 +25,7 @@ export const config = {
     // will be called from there.
     //
     specs: [
-        './test/specs/**/*.js'
+        './test/specs/**/**/*.js'
     ],
     // Patterns to exclude.
     exclude: [
@@ -60,8 +58,13 @@ export const config = {
       // "goog:chromeOptions": { binary: './node_modules/electron/dist/Electron.app/Contents/MacOS/Electron', args: ["app=./electron-sample-apps-master/printing"] }
       // "goog:chromeOptions": { binary: './node_modules/electron/dist/Electron.app/Contents/MacOS/Electron', args: ["app=/Applications/BrowserStack-AppPerformance.app/Contents/MacOS/BrowserStack-AppPerformance"] }
       "goog:chromeOptions": { binary: '/Applications/BrowserStack-AppPerformance.app/Contents/MacOS/BrowserStack-AppPerformance' }
+      //"goog:chromeOptions": { binary: '/Applications/BrowserStack-AppPerformance.app/Contents/MacOS/BrowserStack-AppPerformance' }
 
     }],
+
+    onComplete: async function (exitCode, config, capabilities, results) {
+      await kill(4723, 'tcp')
+    },
 
     //
     // ===================
@@ -105,6 +108,12 @@ export const config = {
     //
     // Default request retries count
     connectionRetryCount: 3,
+
+    services: [['chromedriver', {
+      port: 9515,
+      path: "/wd/hub/",
+      chromedriverCustomPath:"./node_modules/electron-chromedriver/bin/chromedriver.exe"
+    }]],
     //
     // Test runner services
     // Services take over a specific job you don't want to take care of. They enhance
