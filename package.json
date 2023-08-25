@@ -9,10 +9,14 @@
     "@wdio/mocha-framework": "^8.15.6",
     "@wdio/spec-reporter": "^8.15.6",
     "wdio-electron-service": "^4.3.0",
-    "wdio-chromedriver-service": "^7.2.0",
+    "wdio-chromedriver-service": "^8.1.1",
     "chromedriver": "^108.0.0",
     "electron": "^22.2.0",
     "kill-port": "^1.6.1"
+  },
+  "devDependencies": {
+    "@wdio/allure-reporter": "^8.15.6",
+    "allure-commandline": "2.23.1"
   },
   "scripts": {
     "wdio": "wdio run ./wdio.conf.js"
